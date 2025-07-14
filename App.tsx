@@ -1,5 +1,5 @@
 import { StyleSheet, View } from 'react-native';
-import Explore from './screens/explore';
+import Explore from './screens/Explore';
 
 export default function App() {
   return (
@@ -15,5 +15,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    marginVertical: 36,
   },
 });
