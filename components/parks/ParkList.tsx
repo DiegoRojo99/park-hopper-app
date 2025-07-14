@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
-import { ParkWithDestination } from "../../types/db";
+import { DestinationWithParks, ParkWithDestination } from "../../types/db";
+import DestinationCard from "../destinations/DestinationCard";
 
 export default function ParkList() {
   const [parks, setParks] = useState<ParkWithDestination[]>([]);
@@ -36,28 +37,31 @@ export default function ParkList() {
   if (error) return <View style={styles.container}><Text>Error: {error}</Text></View>;
 
   // Group parks by destination.name
-  const grouped = parks.reduce<Record<string, ParkWithDestination[]>>((acc, park) => {
+  const grouped = parks.reduce<DestinationWithParks[]>((acc, park) => {
     const destName = park.destination?.name || 'Unknown';
-    if (!acc[destName]) acc[destName] = [];
-    acc[destName].push(park);
+    const existing = acc.find((destination) => destination.name === destName);
+    if (existing) {
+      existing.parks.push(park);
+    } else {
+      acc.push({
+        id: park.destination?.id ?? `unknown-${destName}`,
+        slug: park.destination?.slug ?? destName.toLowerCase().replace(/\s+/g, '-'),
+        name: destName,
+        parks: [park]
+      });
+    }
     return acc;
-  }, {});
+  }, []);
 
-  const sortedDestinations = Object.entries(grouped).sort(([a], [b]) =>
-    a.localeCompare(b)
+  const sortedDestinations = grouped.sort((a, b) =>
+    a.name.localeCompare(b.name)
   );
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Park List</Text>
       <ScrollView>
-        {sortedDestinations.map(([destName, parks]) => (
-          <View key={destName} style={styles.destinationCard}>
-            <Text style={styles.destinationTitle}>{destName}</Text>
-            {parks.map(park => (
-              <Text key={park.id} style={styles.parkName}>{park.name}</Text>
-            ))}
-          </View>
+        {sortedDestinations.map((destination) => (
+          <DestinationCard key={destination.id} destination={destination} />
         ))}
       </ScrollView>
     </View>
@@ -67,8 +71,6 @@ export default function ParkList() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
-    backgroundColor: "#f5f5f5",
   },
   title: {
     fontSize: 24,
