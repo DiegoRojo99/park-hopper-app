@@ -1,6 +1,9 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { DestinationWithParks } from "../../types/db";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../types/navigation";
 
 export default function DestinationCard({ destination }: { destination: DestinationWithParks }) {
   return (
@@ -24,10 +27,11 @@ export default function DestinationCard({ destination }: { destination: Destinat
 }
 
 function ParkCard({ park }: { park: { id: string; name: string } }) {
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   return (
-    <View style={styles.parkCard}>
+    <Pressable style={styles.parkCard} onPress={() => navigation.navigate("ParkDetails", { parkId: park.id })}>
       <Text style={styles.parkName}>{park.name}</Text>
-    </View>
+    </Pressable>
   );
 }
 

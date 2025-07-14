@@ -1,20 +1,22 @@
-import { StyleSheet, View } from 'react-native';
 import Explore from './screens/Explore';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationContainer } from '@react-navigation/native';
+import Home from './screens/Home';
+import ParkDetails from './screens/ParkDetails';
+
+const Stack = createNativeStackNavigator();
+const commonScreenOptions = {
+  headerShown: false,
+};
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Explore />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={commonScreenOptions}>
+        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Explore" component={Explore} />
+        <Stack.Screen name="ParkDetails" component={ParkDetails} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginVertical: 36,
-  },
-});
