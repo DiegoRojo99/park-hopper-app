@@ -3,3 +3,5 @@ export type RootStackParamList = {
   Explore: undefined;
   ParkDetails: { parkId: string };
 };
+
+export type SortOption = "Number of Parks" | "Name (A-Z)" | "Name (Z-A)";
