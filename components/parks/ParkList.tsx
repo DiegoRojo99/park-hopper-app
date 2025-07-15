@@ -1,40 +1,11 @@
-import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { DestinationWithParks, ParkWithDestination } from "../../types/db";
 import DestinationCard from "../destinations/DestinationCard";
 
-export default function ParkList() {
-  const [parks, setParks] = useState<ParkWithDestination[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchParks = async () => {
-      const apiUrl = process.env.EXPO_PUBLIC_API_URL!;
-      if (!apiUrl) {
-        setError('API URL is not defined');
-        setLoading(false);
-        return;
-      }
-      try {
-        const response = await fetch(`${apiUrl}/api/parks`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch parks');
-        }
-        const data = await response.json();
-        setParks(data);
-      } catch (err: any) {
-        setError(err.message || 'Unknown error');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchParks();
-  }, []);
-
-  if (loading) return <View style={styles.container}><Text>Loading...</Text></View>;
-  if (error) return <View style={styles.container}><Text>Error: {error}</Text></View>;
+export default function ParkList({ parks }: { parks?: ParkWithDestination[] }) {
+  if (!parks?.length) {
+    return (<View style={styles.container}><Text>No parks available</Text></View>);
+  }
 
   // Group parks by destination.name
   const grouped = parks.reduce<DestinationWithParks[]>((acc, park) => {
