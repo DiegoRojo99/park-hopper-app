@@ -42,6 +42,8 @@ export default function DestinationList({ parks }: { parks?: ParkWithDestination
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: "100%",
+    paddingHorizontal: 24,
   },
   title: {
     fontSize: 24,
