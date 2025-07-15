@@ -1,8 +1,8 @@
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { DestinationWithParks, ParkWithDestination } from "../../types/db";
-import DestinationCard from "../destinations/DestinationCard";
+import DestinationCard from "./DestinationCard";
 
-export default function ParkList({ parks }: { parks?: ParkWithDestination[] }) {
+export default function DestinationList({ parks }: { parks?: ParkWithDestination[] }) {
   if (!parks?.length) {
     return (<View style={styles.container}><Text>No parks available</Text></View>);
   }

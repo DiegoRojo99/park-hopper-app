@@ -1,9 +1,7 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { DestinationWithParks } from "../../types/db";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../../types/navigation";
+import ParkRow from "../parks/ParkRow";
 
 export default function DestinationCard({ destination }: { destination: DestinationWithParks }) {
   return (
@@ -20,18 +18,9 @@ export default function DestinationCard({ destination }: { destination: Destinat
         </View>
       </View>
       <View style={styles.parksContainer}>
-          {destination.parks.map((park) => ( <ParkCard key={park.id} park={park} /> ))}
+        {destination.parks.map((park) => ( <ParkRow key={park.id} park={park} /> ))}
       </View>
     </View>
-  );
-}
-
-function ParkCard({ park }: { park: { id: string; name: string } }) {
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-  return (
-    <Pressable style={styles.parkCard} onPress={() => navigation.navigate("ParkDetails", { parkId: park.id })}>
-      <Text style={styles.parkName}>{park.name}</Text>
-    </Pressable>
   );
 }
 
@@ -57,20 +46,5 @@ const styles = StyleSheet.create({
   },
   parksContainer: {
     marginTop: 8,
-  },
-  parkCard: {
-    padding: 8,
-    marginVertical: 4,
-    backgroundColor: "#dddddd",
-    borderRadius: 4,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 1.41,
-    elevation: 1,
-  },
-  parkName: {
-    fontSize: 14,
-    marginLeft: 8,
   },
 });
