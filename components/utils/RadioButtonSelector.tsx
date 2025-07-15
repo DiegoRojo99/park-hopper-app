@@ -1,4 +1,4 @@
-import { Text, TouchableOpacity, View } from "react-native";
+import { Pressable, Text, TouchableOpacity, View } from "react-native";
 import Fontisto from '@expo/vector-icons/Fontisto';
 import { SortOption } from "../../types/navigation";
 
@@ -15,7 +15,9 @@ export default function RadioButtonSelector({
     <View style={{ flexDirection: 'column' }}>
       {options.map((option) => (
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 4 }} key={option}>
-          <Text>{option}</Text>
+          <Pressable onPress={() => onSelect(option)} style={{ flex: 1 }}>
+            <Text style={{ fontSize: 16 }}>{option}</Text>
+          </Pressable>
           <RadioButton active={selectedOption === option} onPress={() => onSelect(option)} />
         </View>
       ))}
