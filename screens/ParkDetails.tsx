@@ -1,10 +1,10 @@
 import { View, Text, StyleSheet } from "react-native";
 import { LivePark } from "../types/db";
 import { useEffect, useState } from "react";
-import ParkChildrenTab from "../components/tabs/ChildrenTab";
 import LiveAttractionsList from "../components/attractions/LiveAttractionsList";
 import LiveShows from "../components/shows/LiveShows";
 import RestaurantList from "../components/restaurants/RestaurantList";
+import ParkChildrenTab from "../components/utils/ChildrenTab";
 
 export default function ParkDetails({ route, navigation }: { route: any, navigation: any }) {
   const { parkId } = route.params;
