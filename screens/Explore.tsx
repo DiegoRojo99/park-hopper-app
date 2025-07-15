@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import ParkList from "../components/parks/ParkList";
+import DestinationList from "../components/destinations/DestinationList";
 import { ParkWithDestination } from "../types/db";
+import SearchBar from "../components/utils/SearchBar";
 
-export default function DestinationList() {
+export default function ExplorePage() {
   const [parks, setParks] = useState<ParkWithDestination[]>([]);
+  const [filteredParks, setFilteredParks] = useState<ParkWithDestination[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const fetchParks = async () => {
@@ -23,6 +26,7 @@ export default function DestinationList() {
         }
         const data = await response.json();
         setParks(data);
+        setFilteredParks(data);
       } catch (err: any) {
         setError(err.message || 'Unknown error');
       } finally {
@@ -33,17 +37,35 @@ export default function DestinationList() {
     fetchParks();
   }, []);
 
+  useEffect(() => {
+    if (searchQuery) {
+      const lowerCaseQuery = searchQuery.toLowerCase();
+      const filtered = parks.filter(park =>
+        park.name.toLowerCase().includes(lowerCaseQuery) ||
+        park.destination.name.toLowerCase().includes(lowerCaseQuery)
+      );
+      setFilteredParks(filtered);
+    } 
+    else {
+      setFilteredParks(parks);
+    }
+  }, [searchQuery, parks]);
+
   if (loading) return <View style={styles.container}><Text>Loading...</Text></View>;
   if (error) return <View style={styles.container}><Text>Error: {error}</Text></View>;
 
   return (
     <View style={styles.container}>
       <Text style={styles.headerText}>Parks</Text>
-      <ParkList parks={parks} />
+      <SearchBar
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        customStyle={styles.searchBarStyle}
+      />
+      <DestinationList parks={filteredParks} />
     </View>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {
@@ -62,5 +84,8 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 18,
     color: "#333",
+  },
+  searchBarStyle: {
+    marginHorizontal: 16,
   },
 });
