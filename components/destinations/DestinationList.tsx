@@ -1,8 +1,9 @@
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { DestinationWithParks, ParkWithDestination } from "../../types/db";
 import DestinationCard from "./DestinationCard";
+import { SortOption } from "../../types/navigation";
 
-export default function DestinationList({ parks }: { parks?: ParkWithDestination[] }) {
+export default function DestinationList({ parks, sortOption }: { parks?: ParkWithDestination[]; sortOption: SortOption }) {
   if (!parks?.length) {
     return (<View style={styles.container}><Text>No parks available</Text></View>);
   }
@@ -24,9 +25,20 @@ export default function DestinationList({ parks }: { parks?: ParkWithDestination
     return acc;
   }, []);
 
-  const sortedDestinations = grouped.sort((a, b) =>
-    a.name.localeCompare(b.name)
-  );
+  const sortedDestinations = grouped.sort((a, b) => {
+    if (sortOption === "Number of Parks") {
+      return b.parks.length - a.parks.length;
+    } 
+    else if (sortOption === "Name (A-Z)") {
+      return a.name.localeCompare(b.name);
+    }
+    else if (sortOption === "Name (Z-A)") {
+      return b.name.localeCompare(a.name);
+    }
+    else {
+      return 0; // Default case, no sorting
+    }
+  });
 
   return (
     <View style={styles.container}>

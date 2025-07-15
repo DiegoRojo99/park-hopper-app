@@ -3,6 +3,9 @@ import { View, Text, StyleSheet } from "react-native";
 import DestinationList from "../components/destinations/DestinationList";
 import { ParkWithDestination } from "../types/db";
 import SearchBar from "../components/utils/SearchBar";
+import Ionicons from '@expo/vector-icons/Ionicons';
+import ParkFilterModal from "../components/utils/modals/ParkFilterModal";
+import { SortOption } from "../types/navigation";
 
 export default function ExplorePage() {
   const [parks, setParks] = useState<ParkWithDestination[]>([]);
@@ -10,6 +13,8 @@ export default function ExplorePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isFilterModalVisible, setIsFilterModalVisible] = useState(false);
+  const [sortOption, setSortOption] = useState<SortOption>("Number of Parks");
 
   useEffect(() => {
     const fetchParks = async () => {
@@ -55,15 +60,28 @@ export default function ExplorePage() {
   if (error) return <View style={styles.container}><Text>Error: {error}</Text></View>;
 
   return (
+    <>
     <View style={styles.container}>
-      <Text style={styles.headerText}>Parks</Text>
+      <View style={styles.headerRow}>
+        <Text style={styles.headerText}>Parks</Text>
+        <View>
+          <Ionicons name="filter-circle" size={32} color="black" onPress={() => setIsFilterModalVisible(true)} />
+        </View>
+      </View>
       <SearchBar
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         customStyle={styles.searchBarStyle}
       />
-      <DestinationList parks={filteredParks} />
+      <DestinationList parks={filteredParks} sortOption={sortOption} />
     </View>
+    <ParkFilterModal
+      isVisible={isFilterModalVisible}
+      onClose={() => setIsFilterModalVisible(false)}
+      sortOption={sortOption}
+      setSortOption={setSortOption}
+    />
+    </>
   );
 }
 
@@ -75,11 +93,19 @@ const styles = StyleSheet.create({
     paddingVertical: 32,
     marginBottom: 16,
   },
+  headerRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginHorizontal: 24,
+    marginTop: 16,
+  },
   headerText: {
-    fontSize: 24,
+    fontSize: 32,
     fontWeight: "bold",
-    marginVertical: 12,
     color: "#333",
+    textAlign: "left",
+    flex: 1,
   },
   text: {
     fontSize: 18,
