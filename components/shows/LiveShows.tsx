@@ -2,7 +2,7 @@ import { View, ScrollView, StyleSheet, Text } from "react-native";
 import { LiveShow, ShowTimes } from "../../types/db";
 
 export default function LiveShows({ shows }: { shows?: LiveShow[] }) {
-  if (!shows || shows.length === 0) {
+  if (!shows?.length) {
     return (
       <View style={styles.container}>
         <Text style={styles.headerText}>No Live Shows Available</Text>
@@ -66,9 +66,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   headerText: {
-    fontSize: 24,
+    fontSize: 18,
     fontWeight: "bold",
-    marginBottom: 16,
+    textAlign: "center",
+    marginVertical: 16,
   },
   contentText: {
     fontSize: 16,
