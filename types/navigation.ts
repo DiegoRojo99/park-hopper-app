@@ -1,6 +1,6 @@
 export type RootStackParamList = {
   Home: undefined;
-  Explore: undefined;
+  ExploreStack: undefined;
   ParkDetails: { parkId: string };
 };
 

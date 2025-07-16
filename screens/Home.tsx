@@ -7,7 +7,7 @@ import { RootStackParamList } from "../types/navigation";
 export default function Home() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const handleGetStarted = () => {
-    navigation.navigate("Explore");
+    navigation.navigate("ExploreStack");
   };
   
   return (
