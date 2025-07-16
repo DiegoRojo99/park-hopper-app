@@ -9,7 +9,10 @@ import colors from './utils/Colors';
 
 const Stack = createNativeStackNavigator();
 const commonScreenOptions = {
-  headerShown: false,
+  headerStyle: {
+    backgroundColor: colors.light.primary,
+  },
+  headerTintColor: colors.white,
 };
 
 const BottomTabs = createBottomTabNavigator();
@@ -28,7 +31,7 @@ function ExploreStack() {
   return (
     <Stack.Navigator screenOptions={commonScreenOptions}>
       <Stack.Screen name="Explore" component={Explore} />
-      <Stack.Screen name="ParkDetails" component={ParkDetails} />
+      <Stack.Screen name="ParkDetails" component={ParkDetails} options={{ title: '' }} />
     </Stack.Navigator>
   );
 }
@@ -47,9 +50,10 @@ export default function App() {
           }}
         />
         <BottomTabs.Screen 
-          name="ExploreStack" 
-          component={ExploreStack} 
-          options={{ 
+          name="ExploreStack"
+          component={ExploreStack}
+          options={{
+            title: 'Explore',
             tabBarIcon: ({ color, size }) => (
               <Ionicons name="search" size={size} color={color} />
             ),
