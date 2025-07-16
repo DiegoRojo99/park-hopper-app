@@ -15,6 +15,9 @@ export default function ParkChildrenTab({ activeTab, setActiveTab }: { activeTab
       <Pressable style={[styles.tab, activeTab === "Restaurants" ? styles.activeTab : styles.inactiveTab]} onPress={() => setActiveTab("Restaurants")}>
         <Ionicons name="restaurant" size={32} color="black" />
       </Pressable>
+      <Pressable style={[styles.tab, activeTab === "Map" ? styles.activeTab : styles.inactiveTab]} onPress={() => setActiveTab("Map")}>
+        <Ionicons name="map" size={32} color="black" />
+      </Pressable>
     </View>
   );
 }

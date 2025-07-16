@@ -5,6 +5,7 @@ import LiveAttractionsList from "../components/attractions/LiveAttractionsList";
 import LiveShows from "../components/shows/LiveShows";
 import RestaurantList from "../components/restaurants/RestaurantList";
 import ParkChildrenTab from "../components/utils/ChildrenTab";
+import ParkMap from "../components/maps/ParkMap";
 
 export default function ParkDetails({ route, navigation }: { route: any, navigation: any }) {
   const { parkId } = route.params;
@@ -68,6 +69,7 @@ export default function ParkDetails({ route, navigation }: { route: any, navigat
         {activeTab === "Attractions" && <LiveAttractionsList attractions={park.attractions} />}
         {activeTab === "Shows" && <LiveShows shows={park.shows} />}
         {activeTab === "Restaurants" && <RestaurantList restaurants={park.restaurants} />}
+        {activeTab === "Map" && <ParkMap park={park} />}
       </View>
     </View>
   );
@@ -97,6 +99,7 @@ const styles = StyleSheet.create({
     flex: 6,
     paddingHorizontal: 16,
     width: "100%",
+    marginTop: 8,
   },
 });
   
