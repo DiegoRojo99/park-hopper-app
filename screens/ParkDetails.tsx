@@ -39,6 +39,12 @@ export default function ParkDetails({ route, navigation }: { route: any, navigat
       .finally(() => setLoading(false));
 
   }, [parkId]);
+  
+  useEffect(() => {
+    if (park?.name) {
+      navigation.setOptions({ title: park.name });
+    }
+  }, [park, navigation]);
 
   if (loading) return <View style={styles.container}><Text>Loading...</Text></View>;
   if (error) return <View style={styles.container}><Text>Error: {error}</Text></View>;
@@ -71,8 +77,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    paddingVertical: 32,
-    marginBottom: 44,
+    paddingBottom: 32,
     justifyContent: "center",
     alignItems: "center",
   },
