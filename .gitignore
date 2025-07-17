@@ -40,3 +40,6 @@ yarn-error.*
 # app json
 app.config.js
 eas.json
+
+# Android
+android
